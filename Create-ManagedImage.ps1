@@ -121,6 +121,11 @@ Write-Output "`nRunning 'sysprep.exe /oobe /generalize /shutdown' in the guest O
 # Run Sysprep inside the Virtual Machine to generalize it and then shut it down. 
 Invoke-AzVMRunCommand -Name $VmName -ResourceGroupName $ResourceGroupName -CommandId 'RunPowerShellScript' -ScriptPath $SysprepScriptFilePath
 
+Write-Output "`nDeallocate the virtual machine.`n"
+
+# Deallocate the virtual machine. The previous command should have stopped the virtual machine but left it allocated.
+Stop-AzVM -Name $VmName -ResourceGroupName $ResourceGroupName
+
 Write-Output "`nConfiguring the state of the virtual machine to 'Generalized'.`n"
 
 # Set the state of the virtual machine to Generalized
